@@ -373,7 +373,7 @@ int8_t Adafruit_BNO055::getTemp() {
  *            VECTOR_GRAVITY]
  *  @return  vector from specified source
  */
-imu::Vector<3> Adafruit_BNO055::getVector(adafruit_vector_type_t vector_type) {
+imu::Vector<3> Adafruit_BNO055::getVector(adafruit_vector_type_t vector_type, bool dataValid) {
   imu::Vector<3> xyz;
   uint8_t buffer[6];
   memset(buffer, 0, 6);
@@ -382,7 +382,7 @@ imu::Vector<3> Adafruit_BNO055::getVector(adafruit_vector_type_t vector_type) {
   x = y = z = 0;
 
   /* Read vector data (6 bytes) */
-  readLen((adafruit_bno055_reg_t)vector_type, buffer, 6);
+  dataValid = readLen((adafruit_bno055_reg_t)vector_type, buffer, 6);
 
   x = ((int16_t)buffer[0]) | (((int16_t)buffer[1]) << 8);
   y = ((int16_t)buffer[2]) | (((int16_t)buffer[3]) << 8);
